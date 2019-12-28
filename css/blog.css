@@ -1,0 +1,77 @@
+/*!
+ * Start Bootstrap - Resume v5.0.8 (https://startbootstrap.com/template-overviews/resume)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-resume/blob/master/LICENSE)
+ */
+
+ div#blog-list-container, div#blog-container {
+	 margin: 20px 150px;
+ }
+ 
+ a.blog-list-item {
+	 display: block;
+	 margin-top: 35px;
+ }
+ 
+ a.blog-list-item:hover {
+	 text-decoration: none;
+ }
+ 
+ a.blog-list-item h2.blog-title {
+    font-size: 48px;
+ }
+ 
+ a.blog-list-item:hover h2.blog-title {
+	 text-decoration: underline;
+ }
+ 
+ a.blog-list-item p.blog-description {
+	 color: #BD5D38;
+ }
+ 
+ #blog-container {
+	 color: #333;
+	 font-size: 18px;
+ }
+ 
+ #blog-container h2.blog-title {
+	 font-size: 3.5rem;
+ }
+  
+ #blog-container p {
+	 margin-top: 10px;
+ }
+ 
+ #blog-container .gray{
+	 color: #868e96;
+ }
+ 
+ #blog-container .bold {
+	 font-weight: bold;
+ }
+ 
+ #blog-container .italic {
+	 font-style: italic;
+ }
+ 
+ #blog-container .underline {
+	 text-decoration: underline;
+ }
+ 
+ #blog-container ol.pad-to-content {
+	 padding-left: 18px;
+ }
+ 
+ #blog-container li.upper-roman {
+	 list-style-type: upper-roman;
+ }
+ 
+ #blog-container li.lower-roman {
+	 list-style-type: lower-roman;
+ }
+ 
+ #blog-container .subheading {
+	 font-size: 22px;
+ }
+
+

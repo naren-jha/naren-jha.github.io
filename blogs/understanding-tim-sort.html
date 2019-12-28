@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Narendra Jha">
+  <meta name="description" content="Experienced software professional, 5+ Years of Experience working in software industry, Strong Skills in Data structure, Algorithms, and System Design">
+  <meta name="keywords" content="Hire Software Engineer, Java Developer, SDE">
+
+  <title>Understanding Tim Sort - Blog By Narendra Jha</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../img/favicon/site.webmanifest">
+  <link rel="shortcut icon" href="../img/favicon/favicon.ico">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../css/resume.css" rel="stylesheet">
+  <link href="../css/blog.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <span class="d-block d-lg-none">Narendra Jha</span>
+      <span class="d-none d-lg-block">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="../img/profile.jpg" style="width: 150px; height: 150px;">
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="../index.html">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="../blog.html">Blog</a>
+		</li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="blog-container">
+	<h2 class="blog-title">
+		Understanding Tim Sort
+	</h2>
+    <hr class="m-0">
+	
+	<p class="gray"><span class="bold">Prerequisite:</span> Insertion sort, Merge sort, and Quicksort</p>
+	
+	<ol class="pad-to-content">
+		<li class="upper-roman">We know that Insertion sort works best when - 
+			<ol>
+				<li>The input array is aready partially sorted, and</li>
+				<li>The size of the input array is small</li>
+			</ol>
+		</li>
+		<li class="upper-roman">
+			We also know that Merge sort's <span class="italic underline">merge</span> procedure works faster and better if the subarrays we are merging has size close to power of 2.
+		</li>
+	</ol>
+	
+	<p>
+		Now Tim sort uses above two properties of Insertion sort and Merge sort, and creates a hybrid of the two.
+	</p>
+	
+	<p>
+		So Tim sort uses ideas from Insertion sort and Merge sort, and here is how it works -
+		<img src="../img/blog/timsort1.png" style="width: 758px; margin-left: 30px;">
+	</p>
+	
+	<p>
+		Now these <span class="bold">Runs</span> can be of any size, as sorted data in an input array can be found in any size.
+	</p>
+	
+	<p>
+		The idea of Tim sort is based on the fact that real world input data often has this ordered chunks of data in it. It could be ordered in increasing or decreasing order. The idea is to merge the sorted chunks of data to get complete array sorted, and merging is done using <span class="italic underline">merge</span> procedure of Merge sort (so that is where Tim sort borrows idea from Merge sort)
+	</p>
+	
+	<p>
+		Now the problem is, not everything in input array can be divided in ordered chunks of subarrays, as there will be portions in input array with random data in it, which is not sorted in any order, and that's where Insertion sort comes to rescue. The idea is to fix a minimum size of <span class="bold">Runs</span> (Subarrays that will be merged). Usually the minimum size of a <span class="bold">Run</span> is chosen as 64 or 32. Lets go with 64 size here. Let's call minimum size of a Run <span class="bold">Minrun</span> hereafter.
+	</p>
+	
+	<p>
+		<span class="bold">Minrun</span> are chosen by keeping two things in mind -
+		<ol>
+			<li><span class="bold">Minrun</span> should be small enough for Insertion sort to sort it faster, and</li>
+			<li>It should be close to power of 2, for <span class="italic underline">merge</span> procedure of Merge sort to work faster.</li>
+		</ol>
+		And that is why <span class="bold">Minrun</span> is often chosen as either 64 or 32.
+	</p>
+	
+	<p>
+		Now we find this ordered sequence of data in input array, of sizes as close to <span class="bold">Minrun (64)</span> as possible, and then we take rest of the elements following it (or from either side of it), to complete a subsequence of size <span class="bold">Minrun</span>, and then we sort it using Insertion sort.
+	</p>
+	
+	<p>
+		For example, if we find a subarray of size 24 which is already sorted in some order, then we take 40 more elements following it, and then Insertion sort it.
+		<img src="../img/blog/timsort2.png" style="width: 758px; margin-left: 30px; margin-top: 13px;">
+	</p>
+	
+	<p>
+		The protion of array which is already ordered, could be found ordered either in ascending or descending order, if ascending order - OK, if descending order - then we simply reverse it.
+	</p>
+	
+	<p>
+		As stated earlier, Insertion sort works best when - 
+		<ol>
+			<li>The input array is already partially sorted, and</li>
+			<li>The size of the input array is small</li>
+		</ol>
+		And both conditions here are met very well.<br/>
+		Some portion of the chunk we are sorting, is already sorted, and the size of <span class="bold">Minrun</span> (subarray) is 64 (or 32), which is small enough for Insertion sort to work very very fast.
+	</p>
+	
+	<p>
+		Now when we get a lot of these <span class="bold">Runs</span> which are sorted using Insertion sort, we merge them just like we merge sorted subarrays in Merge sort.
+		<img src="../img/blog/timsort3.png" style="width: 758px; margin-left: 30px; margin-top: 16px;">
+	</p>
+	
+	<p>
+		<span class="bold underline subheading">Time Complexity:</span>
+		<ol>
+			<li>
+				Best Case: <span class="bold">O(n)</span>
+			</li>
+			<li>
+				Average Case: <span class="bold">O(n*lgn)</span>
+			</li>
+			<li>
+				Worst Case: <span class="bold">O(n*lgn)</span>
+			</li>
+		</ol>
+	</p>
+	
+	<p>
+		<span class="bold underline subheading">Space Complexity:</span> O(n)
+	</p>
+	
+	<p>
+		<span class="bold underline subheading">Stability:</span> Yes
+	</p>
+	
+	<p>
+		<span class="bold underline subheading">Uses:</span>
+		<ol>
+			<li>Tim sort is used in Python library</li>
+			<li>It is also used in Java 7.0 onwards for sorting non-primitive array or list. For sorting primitive array, Java uses Dual-Pivoted Quicksort</li>
+		</ol>
+	</p>
+	
+	<p>
+		<span class="bold underline subheading">Timsort vs Quicksort:</span><br/>
+		When compared with Quicksort, Timsort has below advantages:
+		<ol>
+			<li>It is unbelievably fast for nearly sorted data sequence, and</li>
+			<li>The worst case is still O(n*lgn)</li>
+		</ol>
+	</p>
+	
+	<p>
+		<span class="bold">Quicksort's advantage</span> over Timsort is that it works really fast for primitive array, because it utilizes processors memory caching abilities very well. It accesses a lot of near by elements, which can be accesses really really fast due to array's memory locality for primitive data.
+		<br/>
+		For non-primitive data, arrays store addresses of objects, and actual objects are at different locations in <span class="bold">heap</span> section of memory, which makes accessing it slower compared to primitive data, which inturn makes the Quicksort algorithm slower, as it access a lot of near by elements.
+	</p>
+	
+	<p>
+		Have a question or comment about this post, write me at <a href="mailto:njha.sde@gmail.com">njha.sde@gmail.com</a>
+	</p>
+	
+  </div>
+  
+  
+	<section style="text-align: center; padding: 7px 0px;">
+		© 2019 Narendra Jha. All rights reserved
+	</section>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="../js/resume.min.js"></script>
+
+</body>
+
+</html>
