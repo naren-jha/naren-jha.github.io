@@ -19,6 +19,16 @@
  
  a.blog-list-item h2.blog-title {
     font-size: 48px;
+	margin-bottom: 0px;
+ }
+ 
+ a.blog-list-item p.subtitle {
+	 color: gray;
+	 font-size: 12px;
+ }
+ 
+ p.subtitle .bold {
+	 font-weight: bold;
  }
  
  a.blog-list-item:hover h2.blog-title {
