@@ -81,7 +81,7 @@
 	
 	<p>
 		So Tim sort uses ideas from Insertion sort and Merge sort, and here is how it works -
-		<img src="../img/blog/timsort1.png" style="width: 758px; margin-left: 30px;">
+		<img src="../img/blog/timsort1.PNG" style="width: 758px; margin-left: 30px;">
 	</p>
 	
 	<p>
@@ -111,7 +111,7 @@
 	
 	<p>
 		For example, if we find a subarray of size 24 which is already sorted in some order, then we take 40 more elements following it, and then Insertion sort it.
-		<img src="../img/blog/timsort2.png" style="width: 758px; margin-left: 30px; margin-top: 13px;">
+		<img src="../img/blog/timsort2.PNG" style="width: 758px; margin-left: 30px; margin-top: 13px;">
 	</p>
 	
 	<p>
@@ -130,7 +130,7 @@
 	
 	<p>
 		Now when we get a lot of these <span class="bold">Runs</span> which are sorted using Insertion sort, we merge them just like we merge sorted subarrays in Merge sort.
-		<img src="../img/blog/timsort3.png" style="width: 758px; margin-left: 30px; margin-top: 16px;">
+		<img src="../img/blog/timsort3.PNG" style="width: 758px; margin-left: 30px; margin-top: 16px;">
 	</p>
 	
 	<p>
@@ -177,6 +177,10 @@
 		<span class="bold">Quicksort's advantage</span> over Timsort is that it works really fast for primitive array, because it utilizes processors memory caching abilities very well. It accesses a lot of near by elements, which can be accesses really really fast due to array's memory locality for primitive data.
 		<br/>
 		For non-primitive data, arrays store addresses of objects, and actual objects are at different locations in <span class="bold">heap</span> section of memory, which makes accessing it slower compared to primitive data, which inturn makes the Quicksort algorithm slower, as it access a lot of near by elements.
+	</p>
+	
+	<p>
+		Checkout Python and Java's library implementations of Timsort.
 	</p>
 	
 	<p>
