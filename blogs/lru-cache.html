@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Narendra Jha">
+  <meta name="description" content="Experienced software professional, 5+ Years of Experience working in software industry, Strong Skills in Data structure, Algorithms, and System Design">
+  <meta name="keywords" content="Hire Software Engineer, Java Developer, SDE">
+
+  <title>LRU Cache - Blog By Narendra Jha</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../img/favicon/site.webmanifest">
+  <link rel="shortcut icon" href="../img/favicon/favicon.ico">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  
+  <!-- Highlight js plugin -->
+  <link href="../vendor/highlight/css/googlecode.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../css/resume.css" rel="stylesheet">
+  <link href="../css/blog.css" rel="stylesheet">
+  
+  <style>
+   code {
+	 background: #fcfcfc !important;
+   }
+  </style>
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <span class="d-block d-lg-none">Narendra Jha</span>
+      <span class="d-none d-lg-block">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="../img/profile.jpg" style="width: 150px; height: 150px;">
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="../">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="../blog" style="color: rgba(255, 255, 255, 0.75)">Blog</a>
+		</li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="blog-container">
+	<h2 class="blog-title">
+	  How to efficiently implement an LRU Cache
+	</h2>
+	<p class="subtitle">
+	  <span class="bold">Author:</span> Narendra Jha | <span class="bold">Published on:</span> Dec 29, 2019
+	</p>
+    <hr class="m-0">
+	
+	<p>
+	  Problem statement:
+	<p>
+	
+	<p class="italic question">
+	  Design and implement a data structure for <span class="bold">least recently used (LRU) cache</span>. It should support following operations:
+	</p>
+	
+	<ol class="italic question">
+	  <li><span class="bold">put(key, value):</span> Insert a new key-value pair in the cache. If cache size has reached it's capacity, delete least recently used item from it.</li>
+      <li><span class="bold">get(key):</span> get the value for a given key, if key is not present, return null.</li>
+	</ol>
+	<p class="italic question">Both operations (put and get) should take constant average time.</p>
+	
+	<br/>
+	<p>
+	  Looking at the requirement what we basically need is a Hashtable, using which we can perform both get() and put operations in Θ(1) time. But we also need something more than that.
+	<p>
+	
+	<p>
+	  Everytime we add a new entry into LRUCache, we need to check if it has reached it's maximum capacity or not. If it has reached it's maximum capacity, then we have to remove least recently used item from the hashtable. To find least recently used item, we will have to <span class="bold">maintain insertion order as well as access order of elements</span> in LRUCache (hashtable). That means, everytime we add a new entry, we have to maintain insertion order, and everytime we fetch data, we have to update order of elements.
+	<p>
+	
+	<p>
+	  Hashtable does not mantain any kind of ordering of elements, so we will use a doubly linked list to mantain order of elements.
+	</p>
+	
+	<p>
+	  We can not use dynamic array instead of LinkedList, as removing an element in dynamic array takes O(n) time (as it has to shift elements after the target element, one position towards left).
+	</p>
+	
+	<p>
+	  So the LRUCache that we are going to implement, is a Hashtable of keys and doubly linked list nodes as values. The Hashtable makes the time complexities of get() and put() operations Θ(1), and linked list helps in maintaining order of elements and evicting when capacity exceeds.
+	</p>
+	
+	<p>
+	  I am going to implement this in Java. As you must know, Java has a built-in Hashtable (HashMap) implementation, so lets use that. As for linked list, we will maintain our own custom linked list.  Linked list Node can be defined as below:
+	</p>
+	
+	<pre>
+	  <code class="java">
+	class Node {
+		K key;
+		V value;
+		Node next;
+		Node prev;
+		
+		public Node(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+	  </code>
+	</pre>
+	
+	<p>
+	  And below is the complete Java implementation of LRUCache
+	</p>
+	
+	<pre>
+	  <code class="java">
+package advance_ds.lru_cache;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Implementation of Least Recently Used (LRU) Cache data structure
+ * 
+ * We use a Hashtable (built in Java HashMap) and a Doubly Linked 
+ * List (our own customized linked list) to implement LRUCache. 
+ * The LRUCache is a Hashtable of keys and doubly linked list nodes. 
+ * The Hashtable makes the time of get() and put() operation O(1), 
+ * and doubly linked list helps us in maintaining order of elements 
+ * and evicting entry when capacity exceeds.
+ * 
+ * @author Narendra Jha
+ *
+ */
+
+public class LRUCache&lt;K, V&gt; {
+	
+	private class Node {
+		K key;
+		V value;
+		Node next;
+		Node prev;
+		
+		public Node(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+	
+	private int capacity; // capacity of LRUCache
+	
+	private Node head; // head of linked list
+	private Node end; // end of linked list
+	
+	Map&lt;K, Node&gt; map = new HashMap&lt;K, Node&gt;();
+	
+	public LRUCache(int capacity) {
+		this.capacity = capacity;
+	}
+
+	// Returns value for a given key in LRUCache
+	public V get(K key) {
+		if (map.containsKey(key)) {
+			Node node = map.get(key);
+			
+			// Mark the entry as most recently used entry
+			remove(node); // Remove node from linked list
+			addFirst(node); // Then add it to the Head of the linked list
+			return node.value;
+		}
+		return null;
+	}
+	
+	// Adds a new key-value pair into LRUCache
+	public void put(K key, V value) {
+		if (map.containsKey(key)) {
+			Node node = map.get(key);
+			node.value = value; // update value
+			
+			// Mark the entry as most recently used entry
+			remove(node); // Remove node from linked list
+			addFirst(node); // Then add it to the Head of the linked list
+		}
+		else {
+			Node node = new Node(key, value);
+			if (map.size() &gt;= capacity) {
+				// remove least recently used entry when capacity exceeds
+				
+				// remove from map first
+				// as after removing from linked list 'end' will change
+				map.remove(end.key);
+				remove(end);
+			}
+			
+			addFirst(node);
+			map.put(key, node);
+		}
+	}
+	
+	// Adds given node at the beginning of the linked list
+	private void addFirst(Node node) {
+		node.next = head;
+		node.prev = null; // not necessary
+		
+		if (head != null)
+			head.prev = node;
+		
+		head = node;
+		if (end == null)
+			end = head;
+	}
+
+	// Removes given node from the linked list
+	private void remove(Node node) {
+		if (node.prev != null)
+			node.prev.next = node.next;
+		else
+			head = node.next;
+		
+		if (node.next != null)
+			node.next.prev = node.prev;
+		else
+			end = node.prev;
+		
+		node.next = null; // not necessary
+		node.prev = null; // not necessary
+	}
+	
+	public static void main(String[] args) {
+		LRUCache&lt;String, Integer&gt; cache = new LRUCache&lt;&gt;(5);
+		cache.put("abc", 1);
+		cache.put("def", 2);
+		cache.put("ghi", 3);
+		cache.put("jkl", 4);
+		cache.put("mno", 5);
+		
+		// abc is currently least recently used item
+		System.out.println(cache.get("abc")); // 1
+		// abc now became most recently used item, and
+		// def became least recently used item
+		
+		cache.put("pqr", 6); // removes entry corresponding to def
+		// and adds entry for pqr
+		
+		System.out.println(cache.get("def")); // null
+		System.out.println(cache.get("pqr")); // 6
+		
+		cache.put("stu", 7); // removes entry corresponding to ghi
+		// and adds entry for stu
+		
+		cache.put("vwx", 8); // removes entry corresponding to jkl
+		// and adds entry for vwx
+		
+		System.out.println(cache.get("ghi")); // null
+		System.out.println(cache.get("stu")); // 7
+		
+		System.out.println(cache.get("jkl")); // null
+		System.out.println(cache.get("vwx")); // 8
+	}
+}
+	  </code>
+	</pre>
+	
+	
+	<p>
+		In above implementation, we use a doubly linked list to maintain the order of elements. Everytime a new entry is added to the hashtable, we also add it to the beginning of the linked list, marking that entry as the most recently used entry, and everytime an item is accessed, we remove corresponding entry form linked list, and add it back to the beginning of the linked list, again marking it as the most recently used element. Doing this the least recently used item is always at the end of the linked list, and therefore while inserting a new element, if capacity surpasses, we remove last element from linked list and corresponding entry from HashMap.
+	</p>
+	
+	<p>
+		Figure below shows how data in LRUCache is actually stored<br/>
+		<img src="../img/blog/lru-cache1.PNG" style="width: 465px; margin-left: 30px;">
+	</p>
+	
+	<p class="subtitle underline">
+		Implementation Using LinkedHashMap:
+	</p>
+	
+	<p>
+		LinkedHashMap implementation in Java is a HashMap which also preserves insertion order of elements. It is basically a hybrid of HashMap and LinkedList. So instead of using HashMap and LinkedList separately, we can use LinkedHashMap from Java library, but there are some issue.
+	</p>
+	
+	<p>
+		There are mainly two issues which needs to be addressed to implement LRUCache using LinkedHashMap:
+	</p>
+	
+	<ol>
+		<li>
+			LinkedHashMap keeps elements in insertion order, but what we need is access order (meaning, along with insertion order, we also need to update order of elements whenever an element is accessed).
+			<br/><br/>
+			Java Provides a solution for this. There is a an overloaded constructor for LinkedHashMap, which lets us decide that whether we want elements in access order or not.
+			
+			<pre style="height: 100px;">
+			  <code class="java">
+	public LinkedHashMap(int initialCapacity, float loadFactor, <span class="bold">boolean acessOrder</span>) { ... }
+			  </code>
+			</pre>
+			All we have to do is use above constructor, and pass true for <span class="bold">acessOrder</span> value, and elements in LinkedHashMap will be maintained in access order.
+		</li>
+		<li>
+			How do we remove least recently used entry from LinkedHashMap when capacity surpasses, because LinkedHashMap standard implementation would keep increasing capacity, whenever it runs out of space.<br/>
+			Java provides a solution for this as well. There is a method in LinkedHashMap class called <span class="bold">removeEldestEntry()</span>, which can be used to remove least recently used entry from LinkedHashMap when capacity surpasses.
+			
+			<pre style="height: 100px;">
+			  <code class="java">
+	protected boolean removeEldestEntry(Map.Entry&lt;K, V&gt; eldest);
+			  </code>
+			</pre>
+			
+			Again, all we have to do is override and implement this method to return true when we want to remove eldest entry and false when not.
+		</li>
+	</ol>
+	
+	<p>
+	  below is Java implementation of LRUCache using LinkedHashMap.
+	</p>
+	
+	<pre style="margin-bottom: 0;">
+	  <code class="java">
+package advance_ds.lru_cache;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/**
+ * Implementation of Least Recently Used (LRU) Cache data structure
+ * 
+ * Second approach:
+ * We use Java's built in LinkedHashMap to implement LRUCache
+ * 
+ * @author Narendra Jha
+ *
+ */
+public class LRUCache&lt;K, V&gt; extends LinkedHashMap&lt;K, V&gt; {
+
+	private int capacity; // capacity of LRUCache
+	
+	public LRUCache(int capacity) {
+		super(16, 0.75f, true); // LinkedHashMap with accessOrder
+		this.capacity = capacity;
+	}
+	
+	@Override
+	protected boolean removeEldestEntry(Map.Entry&lt;K, V&gt; eldestEntry) {
+		return size() > capacity;
+	}
+	
+	public static void main(String[] args) {
+		LRUCache&lt;String, Integer&gt; cache = new LRUCache&lt;&gt;(5);
+		cache.put("abc", 1);
+		cache.put("def", 2);
+		cache.put("ghi", 3);
+		cache.put("jkl", 4);
+		cache.put("mno", 5);
+		
+		// abc is currently least recently used item
+		System.out.println(cache.get("abc")); // 1
+		// abc now became most recently used item, and
+		// def became least recently used item
+		
+		cache.put("pqr", 6); // removes entry corresponding to def
+		// and adds entry for pqr
+		
+		System.out.println(cache.get("def")); // null
+		System.out.println(cache.get("pqr")); // 6
+		
+		cache.put("stu", 7); // removes entry corresponding to ghi
+		// and adds entry for stu
+		
+		cache.put("vwx", 8); // removes entry corresponding to jkl
+		// and adds entry for vwx
+		
+		System.out.println(cache.get("ghi")); // null
+		System.out.println(cache.get("stu")); // 7
+		
+		System.out.println(cache.get("jkl")); // null
+		System.out.println(cache.get("vwx")); // 8
+	}
+}
+	  </code>
+	</pre>
+	
+	<p style="margin-top: 0;">
+		You can also find above implementations at my <a href="https://github.com/njha-collab/DS_Algo/blob/master/src/advance_ds/lru_cache" target="_blank">github</a>
+	</p>
+	
+	<p>
+		Have a question or comment about this post? write me at <a href="mailto:njha.sde@gmail.com">njha.sde@gmail.com</a>
+	</p>
+	
+  </div>
+  
+  
+	<section style="text-align: center; padding: 7px 0px;">
+	  © 2019 Narendra Jha. All rights reserved
+	</section>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+  <!-- Highlight js plugin -->
+  <script src="../vendor/highlight/js/highlight.pack.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="../js/resume.min.js"></script>
+  
+  <script>
+    $(function() {
+	  if (typeof hljs !== 'undefined') {
+	    hljs.initHighlightingOnLoad();
+	  }
+	  else {
+	    console.log('Highlight js not defined');
+	  }
+    });
+  </script>
+
+</body>
+
+</html>

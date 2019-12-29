@@ -20,11 +20,12 @@
  a.blog-list-item h2.blog-title {
     font-size: 48px;
 	margin-bottom: 0px;
+	word-spacing: 3px;
  }
  
  a.blog-list-item p.subtitle {
-	 color: gray;
-	 font-size: 12px;
+	 color: #BD5D38;
+	 font-size: 14px;
  }
  
  p.subtitle .bold {
@@ -36,7 +37,7 @@
  }
  
  a.blog-list-item p.blog-description {
-	 color: #BD5D38;
+	 color: #343a40;
  }
  
  #blog-container {
@@ -46,6 +47,13 @@
  
  #blog-container h2.blog-title {
 	 font-size: 3.5rem;
+	 margin-bottom: 0px;
+	 word-spacing: 3px;
+ }
+ 
+ #blog-container .subtitle {
+	 margin-top: 0px;
+	 color: #BD5D38;
  }
   
  #blog-container p {
@@ -80,8 +88,12 @@
 	 list-style-type: lower-roman;
  }
  
- #blog-container .subheading {
+ #blog-container .subtitle {
 	 font-size: 22px;
+ }
+ 
+ #blog-container .question {
+	 color: #d41330;
  }
 
 

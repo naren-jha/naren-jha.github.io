@@ -49,7 +49,7 @@
           <a class="nav-link js-scroll-trigger" href="../">About Me</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="../blog">Blog</a>
+          <a class="nav-link js-scroll-trigger" href="../blog" style="color: rgba(255, 255, 255, 0.75)">Blog</a>
 		</li>
       </ul>
     </div>
@@ -59,6 +59,9 @@
 	<h2 class="blog-title">
 		Understanding Tim Sort
 	</h2>
+	<p class="subtitle">
+		<span class="bold">Author:</span> Narendra Jha | <span class="bold">Published on:</span> Dec 28, 2019
+	</p>
     <hr class="m-0">
 	
 	<p class="gray"><span class="bold">Prerequisite:</span> Insertion sort, Merge sort, and Quicksort</p>
@@ -80,7 +83,7 @@
 	</p>
 	
 	<p>
-		So Tim sort uses ideas from Insertion sort and Merge sort, and here is how it works -
+		So Tim sort uses ideas from Insertion sort and Merge sort, and here is how it works -<br/>
 		<img src="../img/blog/timsort1.PNG" style="width: 758px; margin-left: 30px;">
 	</p>
 	
@@ -98,10 +101,14 @@
 	
 	<p>
 		<span class="bold">Minrun</span> are chosen by keeping two things in mind -
-		<ol>
-			<li><span class="bold">Minrun</span> should be small enough for Insertion sort to sort it faster, and</li>
-			<li>It should be close to power of 2, for <span class="italic underline">merge</span> procedure of Merge sort to work faster.</li>
-		</ol>
+	</p>
+	
+	<ol>
+		<li><span class="bold">Minrun</span> should be small enough for Insertion sort to sort it faster, and</li>
+		<li>It should be close to power of 2, for <span class="italic underline">merge</span> procedure of Merge sort to work faster.</li>
+	</ol>
+	
+	<p>
 		And that is why <span class="bold">Minrun</span> is often chosen as either 64 or 32.
 	</p>
 	
@@ -110,7 +117,7 @@
 	</p>
 	
 	<p>
-		For example, if we find a subarray of size 24 which is already sorted in some order, then we take 40 more elements following it, and then Insertion sort it.
+		For example, if we find a subarray of size 24 which is already sorted in some order, then we take 40 more elements following it, and then Insertion sort it.<br/>
 		<img src="../img/blog/timsort2.PNG" style="width: 758px; margin-left: 30px; margin-top: 13px;">
 	</p>
 	
@@ -120,58 +127,62 @@
 	
 	<p>
 		As stated earlier, Insertion sort works best when - 
-		<ol>
-			<li>The input array is already partially sorted, and</li>
-			<li>The size of the input array is small</li>
-		</ol>
+	</p>
+	
+	<ol>
+		<li>The input array is already partially sorted, and</li>
+		<li>The size of the input array is small</li>
+	</ol>
+	
+	<p>
 		And both conditions here are met very well.<br/>
 		Some portion of the chunk we are sorting, is already sorted, and the size of <span class="bold">Minrun</span> (subarray) is 64 (or 32), which is small enough for Insertion sort to work very very fast.
 	</p>
 	
 	<p>
-		Now when we get a lot of these <span class="bold">Runs</span> which are sorted using Insertion sort, we merge them just like we merge sorted subarrays in Merge sort.
+		Now when we get a lot of these <span class="bold">Runs</span> which are sorted using Insertion sort, we merge them just like we merge sorted subarrays in Merge sort.<br/>
 		<img src="../img/blog/timsort3.PNG" style="width: 758px; margin-left: 30px; margin-top: 16px;">
 	</p>
 	
 	<p>
-		<span class="bold underline subheading">Time Complexity:</span>
-		<ol>
-			<li>
-				Best Case: <span class="bold">O(n)</span>
-			</li>
-			<li>
-				Average Case: <span class="bold">O(n*lgn)</span>
-			</li>
-			<li>
-				Worst Case: <span class="bold">O(n*lgn)</span>
-			</li>
-		</ol>
+		<span class="bold underline subtitle">Time Complexity:</span>
+	</p>
+	<ol>
+		<li>
+			Best Case: <span class="bold">O(n)</span>
+		</li>
+		<li>
+			Average Case: <span class="bold">O(n*lgn)</span>
+		</li>
+		<li>
+			Worst Case: <span class="bold">O(n*lgn)</span>
+		</li>
+	</ol>
+	
+	<p>
+		<span class="bold underline subtitle">Space Complexity:</span> O(n)
 	</p>
 	
 	<p>
-		<span class="bold underline subheading">Space Complexity:</span> O(n)
+		<span class="bold underline subtitle">Stability:</span> Yes
 	</p>
 	
 	<p>
-		<span class="bold underline subheading">Stability:</span> Yes
+		<span class="bold underline subtitle">Uses:</span>
 	</p>
+	<ol>
+		<li>Tim sort is used in Python library</li>
+		<li>It is also used in Java 7.0 onwards for sorting non-primitive array or list. For sorting primitive array, Java uses Dual-Pivoted Quicksort</li>
+	</ol>
 	
 	<p>
-		<span class="bold underline subheading">Uses:</span>
-		<ol>
-			<li>Tim sort is used in Python library</li>
-			<li>It is also used in Java 7.0 onwards for sorting non-primitive array or list. For sorting primitive array, Java uses Dual-Pivoted Quicksort</li>
-		</ol>
-	</p>
-	
-	<p>
-		<span class="bold underline subheading">Timsort vs Quicksort:</span><br/>
+		<span class="bold underline subtitle">Timsort vs Quicksort:</span><br/>
 		When compared with Quicksort, Timsort has below advantages:
-		<ol>
-			<li>It is unbelievably fast for nearly sorted data sequence, and</li>
-			<li>The worst case is still O(n*lgn)</li>
-		</ol>
 	</p>
+	<ol>
+		<li>It is unbelievably fast for nearly sorted data sequence, and</li>
+		<li>The worst case is still O(n*lgn)</li>
+	</ol>
 	
 	<p>
 		<span class="bold">Quicksort's advantage</span> over Timsort is that it works really fast for primitive array, because it utilizes processors memory caching abilities very well. It accesses a lot of near by elements, which can be accesses really really fast due to array's memory locality for primitive data.
@@ -184,7 +195,7 @@
 	</p>
 	
 	<p>
-		Have a question or comment about this post, write me at <a href="mailto:njha.sde@gmail.com">njha.sde@gmail.com</a>
+		Have a question or comment about this post? write me at <a href="mailto:njha.sde@gmail.com">njha.sde@gmail.com</a>
 	</p>
 	
   </div>
