@@ -52,6 +52,7 @@
  }
  
  #blog-container .subtitle {
+	 font-size: 22px;
 	 margin-top: 0px;
 	 color: #BD5D38;
  }
@@ -88,8 +89,11 @@
 	 list-style-type: lower-roman;
  }
  
- #blog-container .subtitle {
-	 font-size: 22px;
+ #blog-container .section-header {
+	  font-size: 22px;
+	 margin-top: 0px;
+	 color: #BD5D38;
+	 font-weight: bold;
  }
  
  #blog-container .question {
