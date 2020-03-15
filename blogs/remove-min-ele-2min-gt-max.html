@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Narendra Jha">
+  <meta name="description" content="Experienced software professional, 5+ Years of Experience working in software industry, Strong Skills in Data structure, Algorithms, and System Design">
+  <meta name="keywords" content="Hire Software Engineer, Java Developer, SDE">
+
+  <title>Remove minimum elements from either side such that 2*min becomes more than max - Blog By Narendra Jha</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="../img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../img/favicon/site.webmanifest">
+  <link rel="shortcut icon" href="../img/favicon/favicon.ico">
+
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  
+  <!-- Highlight js plugin -->
+  <link href="../vendor/highlight/css/googlecode.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../css/resume.css" rel="stylesheet">
+  <link href="../css/blog.css" rel="stylesheet">
+  
+  <style>
+   code {
+	 background: #fcfcfc !important;
+   }
+  </style>
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <span class="d-block d-lg-none">Narendra Jha</span>
+      <span class="d-none d-lg-block">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="../img/profile.jpg" style="width: 150px; height: 150px;">
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="../">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="../blog" style="color: rgba(255, 255, 255, 0.75)">Blog</a>
+		</li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="blog-container">
+	<h2 class="blog-title">
+	  Remove minimum elements from either side such that 2*min becomes more than max
+	</h2>
+	<p class="subtitle">
+	  <span class="bold">Author:</span> Narendra Jha | <span class="bold">Published on:</span> March 15, 2020
+	</p>
+    <hr class="m-0">
+	
+	<p class="gray"><span class="bold">Prerequisite:</span> SegmentTree</p>
+	
+	<p>
+	  Problem statement:
+	<p>
+	
+	<p class="italic question">
+	  Given an unsorted array, trim the array such that twice of minimum is greater than the maximum in the trimmed array. Elements should be removed from either end of the array. The number of removals should be minimum.
+	</p>
+	
+	<p class="italic">
+	   <span class="bold">Example: </span><br/>
+	   <pre>
+	Input: arr[] = {4, 5, 100, 9, 10, 11, 12, 15, 200}
+	Output: 4
+	We need to remove 4 elements (4, 5, 100, 200)
+	so that 2*min becomes more than max.
+	
+	Input: arr[] = {4, 7, 5, 6}
+	Output: 0
+	We don’t need to remove any element as 4*2 > 7
+	
+	Input: arr[] = {20, 7, 5, 6}
+	Output: 1
+	   </pre>
+	</p>
+	
+	<p class="section-header">
+		Solution:
+	</p>
+	
+	<p>
+	  <span class="italic underline">An O(n<sup>2</sup>) Solution:</span>
+	  We run two nested loops, the outer loop chooses a starting point and the inner loop chooses ending point for the current starting point. We keep track of longest subarray with the given property.
+	  Doing this, We find the maximum sized subarray such that 2*min > max.
+	  <br/>	  
+	</p>
+	
+	<p>	
+	 However, we can do better than this.
+	</p>
+	 
+	<p>
+	  <span class="italic underline">An O(nlgn) Solution:</span>
+	  We can solve this problem in O(n * logn) time using Sliding Window and Segment Tree concepts. Here is the approach:
+
+	  <ol class="italic highlight">
+	    <li>Construct <span class="bold">Segment Tree</span> for <span class="bold">RangeMinimumQuery</span> and <span class="bold">RangeMaximumQuery</span> for the given input array.</li>
+        <li>Take two pointers <span class="bold">start</span> and <span class="bold">end</span>, and initialize both to <span class="bold">0</span>.</li>
+        <li>
+        	While <span class="bold">end</span> is less than the length of the input array, do the following:
+        	<ol style="list-style-type: lower-alpha;">
+        		<li>Find <span class="bold">min</span> and <span class="bold">max</span> in the current window using Segment Trees constructed in step 1.</li>
+        		<li>Check if <span class="bold">2 * min ≤ max</span>, if so then increment <span class="bold">start</span> pointer else update max valid length so far, if required</li>
+        		<li>Increment <span class="bold">end</span></li>
+        	</ol>        
+        </li>
+        <li>Return <span class="bold">length(arr[]) – maxValidLength</span> as the required answer.</li>
+	  </ol>	
+	  
+	</p>
+	
+	<p>
+	  <span class="bold">Time Complexity: </span><br/>
+	  In worst case, we will have to iterate through the entire array and in each iteration we find min and max in segment tree which takes O(logn). So that contributes O(n * logn). But before that, we also have to contruct segment trees which takes O(n) time.
+	</p>
+	
+	<p>
+	  So overall time complexity is <span class="bold">T(n) = O(nlgn) + O(n) = O(nlgn)</span>
+	</p>
+	
+	<p>
+	  <span class="bold">Implementation: </span><br/>
+	  Below is Java implementation of above algorithms:
+	</p>
+	
+	<pre>
+	  <code class="java">
+/**
+ * Removes minimum number of elements from given array to
+ *
+ * @author Narendra Jha, njha.sde@gmail.com
+ *
+ */
+public class RemoveMinElementsFromEitherSide {
+
+    // T(n): O(n^2)
+    public int removeMinElements(int[] a) {
+        int n = a.length;
+        int maxValidLen = 0;
+        
+        for (int start = 0; start < n; start++) {
+            int min = Integer.MAX_VALUE; // min in current window
+            int max = Integer.MIN_VALUE; // max in current window
+            
+            for (int end = start; end < n; end++) {
+                min = Math.min(min, a[end]);
+                max = Math.max(max, a[end]);
+                if (2*min <= max)
+                    break;
+                
+                int len = end-start+1;
+                if (maxValidLen < len)
+                    maxValidLen = len;
+            }
+        }
+        return n - maxValidLen;
+    }
+    
+    // T(n): O(nlgn) + O(n) = O(nlgn)
+    class SolutionUsingRMQ {
+        /*
+         * Algorithm:
+         * 1. Construct Segment Tree for RangeMinimumQuery and RangeMaximumQuery
+         *    for given input array
+         * 2. Take two pointers 'start' and 'end', and initialize both to 0
+         * 3. While 'end' is less than length of input array, do following
+         *    3.1 find min and max in current window using Segment Trees 
+         *        constructed in step 1
+         *    3.2 check if 2*min <= max, if so then increment 'start' pointer
+         *        else update max valid length so far, if required 
+         *    3.3 increment 'end'
+         * 4. (inputArrayLength - maxValidLen) is your answer
+         */
+        public int removeMinElements(int[] a) {
+            int n = a.length;
+            
+            RangeMinimumQuery rMinQ = new RangeMinimumQuery();
+            int[] minTree = rMinQ.createSegmentTree(a);
+            
+            RangeMaximumQuery rMaxQ = new RangeMaximumQuery();
+            int[] maxTree = rMaxQ.createSegmentTree(a);
+            
+            int start = 0, end = 0;
+            int min, max; // min, max in current window
+            int maxValidLen = 0;
+            
+            while (end < n) {
+                min = rMinQ.rangeMinimumQuery(minTree, start, end, n);
+                max = rMaxQ.rangeMaximumQuery(maxTree, start, end, n);
+                if (2*min <= max)
+                    start++;
+                else
+                    maxValidLen = Math.max(maxValidLen, end-start+1);
+                end++;
+            }
+            return n - maxValidLen;
+        }
+    }
+    
+    public static void main(String[] args) {
+        int[] a = {4, 5, 100, 9, 10, 11, 12, 15, 200};
+        RemoveMinElementsFromEitherSide o = new RemoveMinElementsFromEitherSide();
+        
+        System.out.println(o.removeMinElements(a)); // 4
+        
+        System.out.println(o.new SolutionUsingRMQ().removeMinElements(a)); // 4
+    }
+    
+    /**
+     * Segment Tree - Range Minimum Query
+     *
+     * @author Narendra Jha, njha.sde@gmail.com
+     */
+    class RangeMinimumQuery {
+        
+        /**
+         * Creates a new segment tree from given input array.
+         */
+        public int[] createSegmentTree(int[] input) {
+            int n = input.length;
+            int segTreeSize = 2 * getNextPowerOfTwo(n) - 1;
+            int[] segmentTree = new int[segTreeSize];
+            
+            createSegmentTreeUtil(segmentTree, input, 0, n-1, 0);
+            return segmentTree;
+        }
+
+        private void createSegmentTreeUtil(int[] segmentTree, int[] input, 
+                int low, int high, int pos) {
+            if (low == high) {
+                // its a leaf node
+                segmentTree[pos] = input[low];
+                return;
+            }
+            
+            // construct left and right subtrees and then update value for current node
+            int mid = (low + high) / 2;
+            createSegmentTreeUtil(segmentTree, input, low, mid, (2*pos + 1));
+            createSegmentTreeUtil(segmentTree, input, mid+1, high, (2*pos + 2));
+            segmentTree[pos] = Math.min(segmentTree[2*pos + 1], segmentTree[2*pos + 2]); 
+        }
+        
+        /**
+         * Queries given range for minimum value.
+         */
+        public int rangeMinimumQuery(int[] segmentTree, int from, int to, int inputSize){
+            return rangeMinimumQueryUtil(segmentTree, 0, inputSize-1, from, to, 0);
+        }
+
+        private int rangeMinimumQueryUtil(int[] segmentTree, int low, int high, 
+                int from, int to, int pos) {
+            // total overlap
+            if (from <= low && to >= high) {
+                return segmentTree[pos];
+            }
+            
+            // no overlap
+            if (from > high || to < low) {
+                return Integer.MAX_VALUE;
+            }
+            
+            // partial overlap
+            int mid = (low + high) / 2;
+            int left = rangeMinimumQueryUtil(segmentTree, low, mid, from, to, (2*pos + 1));
+            int right = rangeMinimumQueryUtil(segmentTree, mid+1, high, from, to, (2*pos + 2));
+            return Math.min(left, right);
+        }
+    }
+
+    /**
+     * Segment Tree - Range Maximum Query
+     *
+     * @author Narendra Jha, njha.sde@gmail.com
+     */
+    class RangeMaximumQuery {
+        
+        /**
+         * Creates a new segment tree from given input array.
+         */
+        public int[] createSegmentTree(int[] input) {
+            int n = input.length;
+            int segTreeSize = 2 * getNextPowerOfTwo(n) - 1;
+            int[] segmentTree = new int[segTreeSize];
+            
+            createSegmentTreeUtil(segmentTree, input, 0, n-1, 0);
+            return segmentTree;
+        }
+
+        private void createSegmentTreeUtil(int[] segmentTree, int[] input, 
+                int low, int high, int pos) {
+            if (low == high) {
+                // its a leaf node
+                segmentTree[pos] = input[low];
+                return;
+            }
+            
+            // construct left and right subtrees and then update value for current node
+            int mid = (low + high) / 2;
+            createSegmentTreeUtil(segmentTree, input, low, mid, (2*pos + 1));
+            createSegmentTreeUtil(segmentTree, input, mid+1, high, (2*pos + 2));
+            segmentTree[pos] = Math.max(segmentTree[2*pos + 1], segmentTree[2*pos + 2]); 
+        }
+        
+        /**
+         * Queries given range for maximum value.
+         */
+        public int rangeMaximumQuery(int[] segmentTree, int from, int to, int inputSize){
+            return rangeMaximumQueryUtil(segmentTree, 0, inputSize-1, from, to, 0);
+        }
+
+        private int rangeMaximumQueryUtil(int[] segmentTree, int low, int high, 
+                int from, int to, int pos) {
+            // total overlap
+            if (from <= low && to >= high) {
+                return segmentTree[pos];
+            }
+            
+            // no overlap
+            if (from > high || to < low) {
+                return Integer.MIN_VALUE;
+            }
+            
+            // partial overlap
+            int mid = (low + high) / 2;
+            int left = rangeMaximumQueryUtil(segmentTree, low, mid, from, to, (2*pos + 1));
+            int right = rangeMaximumQueryUtil(segmentTree, mid+1, high, from, to, (2*pos + 2));
+            return Math.max(left, right);
+        }
+    }
+    
+    
+    private int getNextPowerOfTwo(int n) {
+        int logPart = (int) Math.ceil(Math.log(n) / Math.log(2));
+        return (int) Math.pow(2, logPart);
+    }
+}
+	  </code>
+	</pre>
+	
+	<p style="margin-top: 0;">
+		<a href="https://github.com/njha-collab/DS_Algo/blob/master/src/dynamicprogramming/intermediate/RemoveMinElementsFromEitherSide.java" target="_blank">See this solution on GitHub</a>
+	</p>
+	
+	<p>
+		Feel free to shoot me any questions at <a href="mailto:njha.sde@gmail.com">njha.sde@gmail.com</a>
+	</p>
+	
+  </div>
+  
+  
+	<section style="text-align: center; padding: 7px 0px;">
+	  © 2019 Narendra Jha. All rights reserved
+	</section>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+  <!-- Highlight js plugin -->
+  <script src="../vendor/highlight/js/highlight.pack.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="../js/resume.min.js"></script>
+  
+  <script>
+    $(function() {
+	  if (typeof hljs !== 'undefined') {
+	    hljs.initHighlightingOnLoad();
+	  }
+	  else {
+	    console.log('Highlight js is not defined');
+	  }
+    });
+  </script>
+
+</body>
+
+</html>

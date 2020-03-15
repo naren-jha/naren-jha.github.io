@@ -99,5 +99,10 @@
  #blog-container .question {
 	 color: #d41330;
  }
+ 
+ #blog-container .highlight {
+ 	background: #BD5D38;
+    color: rgba(255, 255, 255, 0.90);
+ }
 
 
