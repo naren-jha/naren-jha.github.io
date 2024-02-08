@@ -1,1 +1,1 @@
-https://njha-collab.github.io/blog
+https://naren-jha.github.io/blog
